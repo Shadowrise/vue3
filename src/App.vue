@@ -1,22 +1,28 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <AppHeader></AppHeader>
-  </div>
+    <v-content>
+      <v-container>
+        <router-view />
+      </v-container>
+    </v-content>
+    <AppFooter></AppFooter>
+  </v-app>
 </template>
-
 <style>
 </style>
 
 <script>
-import AppHeader from "@/components/AppHeader";
+import AppHeader from '@/components/AppHeader'
+import AppFooter from '@/components/AppFooter'
 
 export default {
-  name: "App",
+  name: 'App',
 
-  components: { AppHeader },
+  components: { AppHeader, AppFooter },
 
   data: () => ({
     //
   })
-};
+}
 </script>
