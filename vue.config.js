@@ -1,5 +1,9 @@
 module.exports = {
-  "transpileDependencies": [
-    "vuetify"
-  ]
+  transpileDependencies: ['vuetify'],
+  chainWebpack: config => {
+    config.module
+      .rule('eslint')
+      .use('eslint-loader')
+      .tap(opts => ({ ...opts, emitWarning: true }))
+  }
 }
