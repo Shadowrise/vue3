@@ -4,7 +4,7 @@
       <v-col cols="12" sm="8" md="4">
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark flat>
-            <v-toolbar-title>Signing Up</v-toolbar-title>
+            <v-toolbar-title>Signing In</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <v-alert type="warning" v-show="error">{{ error }}</v-alert>
@@ -32,7 +32,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="primary" @click="submit" :disabled="processing">Sign Up</v-btn>
+            <v-btn color="primary" @click="submit" :disabled="processing">Sign In</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -60,10 +60,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['signUp']),
+    ...mapActions(['signIn']),
     submit() {
       if (this.$refs.form.validate()) {
-        this.signUp({ email: this.email, password: this.password })
+        this.signIn({ email: this.email, password: this.password })
       }
     }
   },

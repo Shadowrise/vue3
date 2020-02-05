@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home'
 import Books from '@/views/Books'
-import Login from '@/views/Login'
+import Signin from '@/views/Signin'
 import Signup from '@/views/Signup'
 import Words from '@/views/Words'
 import Profile from '@/views/Profile'
@@ -23,7 +23,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: Signin
   },
   {
     path: '/signup',

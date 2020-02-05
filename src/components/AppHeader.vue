@@ -33,45 +33,58 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
+
 export default {
   data: () => ({
     drawer: false
   }),
   computed: {
+    ...mapGetters({
+      error: 'getError',
+      processing: 'getProcessing',
+      isUserAuthenticated: 'isUserAuthenticated'
+    }),
     menuItems() {
-      return [
-        {
-          icon: 'mdi-eye',
-          title: 'Read',
-          route: '/books'
-        },
-        {
-          icon: 'mdi-puzzle',
-          title: 'Learn words',
-          route: '/words'
-        },
-        {
-          icon: 'mdi-account',
-          title: 'Profile',
-          route: '/profile'
-        },
-        {
-          icon: 'mdi-logout',
-          title: 'Logout',
-          route: '/logout'
-        },
-        {
-          icon: 'mdi-login',
-          title: 'Sign In',
-          route: '/signin'
-        },
-        {
-          icon: 'mdi-lock-open-outline',
-          title: 'Registration',
-          route: '/signup'
-        }
-      ]
+      return this.isUserAuthenticated
+        ? [
+            {
+              icon: 'mdi-eye',
+              title: 'Read',
+              route: '/books'
+            },
+            {
+              icon: 'mdi-puzzle',
+              title: 'Learn words',
+              route: '/words'
+            },
+            {
+              icon: 'mdi-account',
+              title: 'Profile',
+              route: '/profile'
+            },
+            {
+              icon: 'mdi-logout',
+              title: 'Logout',
+              route: '/logout'
+            }
+          ]
+        : [
+            {
+              icon: 'mdi-login',
+              title: 'Sign In',
+              route: '/login'
+            },
+            {
+              icon: 'mdi-lock-open-outline',
+              title: 'Registration',
+              route: '/signup'
+            }
+          ]
     }
+  },
+  methods: {
+    ...mapMutations(['signOut'])
   }
 }
 </script>
