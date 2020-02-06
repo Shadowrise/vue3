@@ -8,7 +8,7 @@
           </v-toolbar>
           <v-card-text>
             <v-alert type="warning" v-show="error">{{ error }}</v-alert>
-            <v-form ref="form" lazy-validation>
+            <v-form v-model="valid">
               <v-text-field
                 label="Email"
                 name="email"
@@ -32,7 +32,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="primary" @click="submit" :disabled="processing">Sign Up</v-btn>
+            <v-btn color="primary" @click="submit" :disabled="processing || !valid">Sign Up</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -46,10 +46,15 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
+      valid: false,
       email: null,
       password: null,
-      emailRules: [v => (!v ? 'Email is required' : true)],
-      passwordRules: [v => (!v ? 'Password is required' : true)]
+      emailRules: [v => !!v || 'Email is required'],
+      passwordRules: [
+        v => !!v || 'Password is required',
+        v =>
+          (v && v.length >= 6) || 'Password must be at least 6 characters long'
+      ]
     }
   },
   watch: {
@@ -62,9 +67,7 @@ export default {
   methods: {
     ...mapActions(['signUp']),
     submit() {
-      if (this.$refs.form.validate()) {
-        this.signUp({ email: this.email, password: this.password })
-      }
+      this.signUp({ email: this.email, password: this.password })
     }
   },
   computed: {

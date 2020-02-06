@@ -9,12 +9,10 @@ export default {
   },
   actions: {
     signUp(state, data) {
+      state.commit('clearError')
       state.commit('setProcessing', true)
       auth()
         .createUserWithEmailAndPassword(data.email, data.password)
-        .then(user => {
-          state.commit('login', user)
-        })
         .catch(err => {
           state.commit('setError', err.message)
         })
@@ -24,12 +22,10 @@ export default {
     },
 
     signIn(state, data) {
+      state.commit('clearError')
       state.commit('setProcessing', true)
       auth()
         .signInWithEmailAndPassword(data.email, data.password)
-        .then(user => {
-          state.commit('setUser', user)
-        })
         .catch(err => {
           state.commit('setError', err.message)
         })
@@ -39,12 +35,10 @@ export default {
     },
 
     signOut(state) {
+      state.commit('clearError')
       state.commit('setProcessing', true)
       auth()
         .signOut()
-        .then(() => {
-          state.commit('setUser', null)
-        })
         .catch(err => {
           state.commit('setError', err.message)
         })

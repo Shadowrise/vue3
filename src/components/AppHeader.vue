@@ -19,9 +19,19 @@
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn
           color="primary"
-          v-for="(item, i) in menuItems"
-          :key="`menuItem${i}`"
+          v-for="(item, i) in menuRouteItems"
+          :key="`menuRouteItem${i}`"
           :to="item.route"
+          depressed
+        >
+          <v-icon left v-html="item.icon"></v-icon>
+          {{ item.title }}
+        </v-btn>
+        <v-btn
+          color="primary"
+          v-for="(item, i) in menuBtnItems"
+          :key="`menuBtnItem${i}`"
+          @click="dialogShow"
           depressed
         >
           <v-icon left v-html="item.icon"></v-icon>
@@ -29,15 +39,27 @@
         </v-btn>
       </v-toolbar-items>
     </v-app-bar>
+    <v-dialog v-model="dialog" persistent max-width="290">
+      <v-card>
+        <v-card-title class="headline">Logout confirmation</v-card-title>
+        <v-card-text>Are you sure you want to logout?</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="dialogResult(true)">Yes</v-btn>
+          <v-btn color="green darken-1" text @click="dialogResult(false)">No</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data: () => ({
-    drawer: false
+    drawer: false,
+    dialog: false
   }),
   computed: {
     ...mapGetters({
@@ -66,7 +88,7 @@ export default {
             {
               icon: 'mdi-logout',
               title: 'Logout',
-              route: '/logout'
+              click: 'signOut'
             }
           ]
         : [
@@ -81,10 +103,32 @@ export default {
               route: '/signup'
             }
           ]
+    },
+    menuRouteItems() {
+      return this.menuItems.filter(i => i.route)
+    },
+    menuBtnItems() {
+      return this.menuItems.filter(i => i.click)
     }
   },
   methods: {
-    ...mapMutations(['signOut'])
+    ...mapActions(['signOut']),
+    dialogShow() {
+      this.dialog = true
+    },
+    dialogResult(res) {
+      this.dialog = false
+      if (res) {
+        this.signOut()
+      }
+    }
+  },
+  watch: {
+    isUserAuthenticated(v) {
+      if (!v) {
+        this.$router.push({ name: 'login' })
+      }
+    }
   }
 }
 </script>
