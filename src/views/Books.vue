@@ -3,7 +3,12 @@
 </template>
 
 <script>
-export default {};
+import BooksList from '../components/BooksList'
+export default {
+  components: {
+    BooksList
+  }
+}
 </script>
 
 <style>
